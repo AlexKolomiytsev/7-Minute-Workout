@@ -17,6 +17,15 @@ angular.module('7minWorkout')
 				this.name = args.name;
 				this.title = args.title;
 				this.restBetweenExercise = args.restBetweenExercise;
+
+				this.totalWorkoutDuration = function() {
+					if (this.exercises.length == 0) return 0;
+					var total = 0;
+					angular.forEach(this.exercises, function(exercise) {
+						total += exercise.duration;
+					});
+					return this.restBetweenExercise * (this.exercises.length - 1) + total;
+				}
 			}
 
 			function Exercise(args) { //model class
@@ -35,6 +44,7 @@ angular.module('7minWorkout')
 
 			var startWorkout = function() { //load the workout data and start the first exercise
 				workoutPlan = createWorkout(); //sets up the initial data
+				$scope.workoutTimeRemaining = workoutPlan.totalWorkoutDuration();
 				restExercise = {
 					details: new Exercise({
 						name: "rest",
@@ -44,6 +54,10 @@ angular.module('7minWorkout')
 					}),
 					duration: workoutPlan.restBetweenExercise
 				};
+				$interval(function() {
+					$scope.workoutTimeRemaining -= 1;
+				}, 1000, $scope.workoutTimeRemaining);
+
 				startExercise(workoutPlan.exercises.shift()); //starts the first Exercise
 			};
 
