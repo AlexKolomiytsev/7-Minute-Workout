@@ -14,3 +14,8 @@ angular.module('7minWorkout').filter('secondsToTime', function() {
 		return ("0" + hours).substr(-2) + ":" + ("0" + minutes).substr(-2) + ":" + ("0" + seconds).substr(-2);
 	}
 });
+angular.module('7minWorkout').filter('myLineBreakFilter', function() {
+	return function (input) {
+		return "<li>" + input.replace(/\./g, '.<li>');
+	}
+});

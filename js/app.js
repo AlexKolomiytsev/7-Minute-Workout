@@ -9,7 +9,7 @@
  * 2nd arg is an array of the other module dependencies
  * that the app module has
  **/
-angular.module('app', ['ngRoute', '7minWorkout']).
+angular.module('app', ['ngRoute', 'ngSanitize', '7minWorkout']).
 config(function ($routeProvider, $locationProvider, $sceDelegateProvider) {
 		$routeProvider.when('/start', {
 			templateUrl: 'partials/start.html'
