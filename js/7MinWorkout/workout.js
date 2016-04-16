@@ -119,6 +119,12 @@ angular.module('7minWorkout')
 				}
 			};
 
+			$scope.onKeyPressed = function (event) {
+				if (event.which == 80 || event.which == 112 || event.which == 32) { //'p' or 'P' or space button
+					$scope.pauseResumeToggle();
+				}
+			};
+
 
 			var getNextExercise = function (currentExercisePlan) {
 				var nextExercise = null;
@@ -385,7 +391,7 @@ angular.module('7minWorkout')
 				if(newValue) {
 					$scope.ticksAudio.pause();
 					$scope.nextUpAudio.pause();
-					$scope.nextUpExereciseAudio.pause();
+					$scope.nextUpExerciseAudio.pause();
 					$scope.halfWayAudio.pause();
 					$scope.aboutToCompleteAudio.pause();
 				}
