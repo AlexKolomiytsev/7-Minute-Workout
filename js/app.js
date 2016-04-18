@@ -8,7 +8,7 @@
  * create a module named 'app'(1st arg).
  * 2nd arg is an array of the other module dependencies that the app module has
  **/
-angular.module('app', ['ngRoute', 'ngSanitize', '7minWorkout', 'mediaPlayer']).
+angular.module('app', ['ngRoute', 'ngSanitize', '7minWorkout', 'mediaPlayer','ui.bootstrap']).
 config(function ($routeProvider, $locationProvider, $sceDelegateProvider) {
 		$routeProvider.when('/start', {
 			templateUrl: 'partials/start.html'
