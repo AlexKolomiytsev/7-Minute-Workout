@@ -12,6 +12,7 @@ body {
     font-family: 'Roboto Slab';
     font-style: normal;
     font-weight: 400;
+    overflow-x: hidden;
 }
 
 /* Set padding to keep content from hitting the edges */
@@ -141,4 +142,76 @@ input[type="checkbox"].input-validation-error {
     position: absolute;
     top: 0; left: 0; bottom: 0; right: 0;
 }
+#play-video-overlay {
+    position:absolute;
+    top:0px;
+    width:90%;
+    height:100%;
+    opacity:0;
+    z-index:10;
+
+}
+#play-video-overlay:hover {
+    opacity:.6;
+}
+#play-video-overlay .video {
+    font-size:80pt;
+    width:100px;
+    height:100px;
+    color:#4eaded;
+}
 /*Styles for workout page - end*/
+
+
+/*Angular animation*/
+/*
+The first animation we are going to enable is the ng-view transition, sliding in from
+the right
+*/
+div[ng-view] {
+    position: absolute;
+    width:97%;
+    height:91%;
+}
+div[ng-view].ng-enter,
+div[ng-view].ng-leave {
+    -webkit-transition: all 1s ease;
+    -moz-transition: all 1s ease;
+    -o-transition: all 1s ease;
+    transition: all 1s ease;
+}
+div[ng-view].ng-enter {
+    left: 97%;
+}
+
+div[ng-view].ng-leave {
+    left: 0;
+}
+div[ng-view].ng-enter-active {
+     left: 0;
+}
+
+div[ng-view].ng-leave-active {
+    left: -97%;
+}
+
+
+/*
+keyframe-based animation for videos as it is using ng-repeat, which
+supports -> animation <- (library animate.css is provide keyframe-based animation)
+
+*/
+.video-image.ng-enter,
+.video-image.ng-move {
+    -webkit-animation: bounceIn 1s;
+    -o-animation: bounceIn 1s;
+    animation: bounceIn 1s;
+}
+.video-image.ng-leave {
+    -webkit-animation:bounceOut 1s;
+    -o-animation:bounceOut 1s;
+    animation:bounceOut 1s;
+}
+
+
+
