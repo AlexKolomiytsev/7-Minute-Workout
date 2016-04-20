@@ -11,8 +11,10 @@
 angular.module('7minWorkout')
 		.controller('WorkoutController',
 		//inline annotation - way to declare dependencies so that DI does not break after minification
-		['$scope', '$interval', '$location', '$timeout', 'workoutHistoryTracker',
-			function($scope, $interval, $location, $timeout, workoutHistoryTracker) {
+		['$scope', '$interval', '$location', '$timeout', 'workoutHistoryTracker', 'appEvents',
+			function($scope, $interval, $location, $timeout, workoutHistoryTracker, appEvents) {
+				
+			
 			function WorkoutPlan(args) { //model class
 				this.exercises = [];
 				this.name = args.name;
@@ -70,6 +72,7 @@ angular.module('7minWorkout')
 				
 				if (exercisePlan.details.name != 'rest') {
 					$scope.currentExerciseIndex++;
+					$scope.$emit(appEvents.workout.exerciseStarted, exercisePlan.details);
 				}
 				
 				/*$interval(function() {

@@ -2,7 +2,7 @@
  * Created by sanya on 03.03.2016.
  */
 angular.module('7minWorkout')
-    .factory('workoutHistoryTracker', ['$rootScope', function ($rootScope) {
+    .factory('workoutHistoryTracker', ['$rootScope', 'appEvents', function ($rootScope, appEvents) {
         var maxHistoryItems = 20;
         var workoutHistory = [];
         var currentWorkoutLog = null;
@@ -33,6 +33,16 @@ angular.module('7minWorkout')
                 service.endTracking(false); //end the current tracking if in progress the route changes
             }
         });
+        $rootScope.$on(appEvents.workout.exerciseStarted, function (e,args) {
+            currentWorkoutLog.lastExercise = args.title;
+            ++currentWorkoutLog.exercisesDone;
+        });
 
         return service;
     }]);
+
+angular.module('7minWorkout').value("appEvents", {
+    workout: {
+        exerciseStarted: "event:workout:exerciseStarted"
+    }
+});
