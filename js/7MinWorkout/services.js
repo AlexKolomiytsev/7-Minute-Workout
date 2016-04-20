@@ -2,11 +2,13 @@
  * Created by sanya on 03.03.2016.
  */
 angular.module('7minWorkout')
-    .factory('workoutHistoryTracker', ['$rootScope', 'appEvents', function ($rootScope, appEvents) {
+    .factory('workoutHistoryTracker', ['$rootScope', 'appEvents', 'localStorageService',
+        function ($rootScope, appEvents, localStorageService) {
         var maxHistoryItems = 20;
-        var workoutHistory = [];
         var currentWorkoutLog = null;
         var service = {};
+        var storageKey = 'workoutHistory';
+        var workoutHistory = localStorageService.get(storageKey) || [];
 
         service.startTracking = function () {
             currentWorkoutLog = {
@@ -18,11 +20,13 @@ angular.module('7minWorkout')
                 workoutHistory.shift();
             }
             workoutHistory.push(currentWorkoutLog);
+            localStorageService.add(storageKey, workoutHistory)
         };
         service.endTracking = function (completed) {
             currentWorkoutLog.completed = completed;
             currentWorkoutLog.endedOn = new Date().toISOString();
             currentWorkoutLog = null;
+            localStorageService.add(storageKey, workoutHistory);
         };
         service.getHistory = function () {
             return workoutHistory;
@@ -36,6 +40,7 @@ angular.module('7minWorkout')
         $rootScope.$on(appEvents.workout.exerciseStarted, function (e,args) {
             currentWorkoutLog.lastExercise = args.title;
             ++currentWorkoutLog.exercisesDone;
+            localStorageService.add(storageKey, workoutHistory);
         });
 
         return service;
