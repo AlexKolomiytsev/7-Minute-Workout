@@ -11,7 +11,8 @@
 angular.module('7minWorkout')
 		.controller('WorkoutController',
 		//inline annotation - way to declare dependencies so that DI does not break after minification
-		['$scope', '$interval', '$location', function($scope, $interval, $location) {
+		['$scope', '$interval', '$location', '$timeout', 'workoutHistoryTracker',
+			function($scope, $interval, $location, $timeout, workoutHistoryTracker) {
 			function WorkoutPlan(args) { //model class
 				this.exercises = [];
 				this.name = args.name;
@@ -58,6 +59,7 @@ angular.module('7minWorkout')
 				/*$interval(function() {
 					$scope.workoutTimeRemaining -= 1;
 				}, 1000, $scope.workoutTimeRemaining);*/
+				workoutHistoryTracker.startTracking();
 				$scope.currentExerciseIndex = -1;
 				startExercise($scope.workoutPlan.exercises[0]); //starts the first Exercise
 			};
@@ -83,6 +85,10 @@ angular.module('7minWorkout')
 						});*/
 				exerciseIntervalPromise = startExerciseTimeTracking();
 			};
+            var workoutComplete = function () {
+                workoutHistoryTracker.endTracking(true);
+                $location.path('/finish');
+            };
 
 			var startExerciseTimeTracking = function () {
 				var promise = $interval(function () {
@@ -96,7 +102,7 @@ angular.module('7minWorkout')
 						startExercise(next);
 					}
 					else {
-						$location.path('/finish');
+						workoutComplete();
 					}
 				});
 				return promise;
